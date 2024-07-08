@@ -14,7 +14,7 @@ function Table() {
         const fetchData = async () => {
           try {
             const response = await axiosInstance.get('/AAPL/range/1/day/2023-01-09/2023-01-09');
-            setData(response.data);
+            setData(response.data.results);
           } catch (err) {
             setError(err.message);
           } finally {
@@ -23,8 +23,9 @@ function Table() {
         };
         fetchData();
       }, []);
-      const fetchedData = data["results"]
-      
+      console.log(data)
+      const stockData = data[0];
+       
 
 
     
@@ -43,17 +44,17 @@ function Table() {
       </tr>
     </thead>
     <tbody>
-    {fetchedData.map((data, index) => (
-            <tr key={index}>
-              <td className="border border-gray-300 px-4 py-2">AAPL</td>
-              <td className="border border-gray-300 px-4 py-2">{new Date(data.t).toLocaleDateString()}</td>
-              <td className="border border-gray-300 px-4 py-2">{data.o}</td>
-              <td className="border border-gray-300 px-4 py-2">{data.c}</td>
-              <td className="border border-gray-300 px-4 py-2">{data.h}</td>
-              <td className="border border-gray-300 px-4 py-2">{data.l}</td>
-              <td className="border border-gray-300 px-4 py-2">{data.v}</td>
-            </tr>
-          ))}
+   
+    {stockData&& <tr >
+        <td className="border border-gray-300 px-4 py-2">AAPL</td>
+        <td className="border border-gray-300 px-4 py-2">{new Date(stockData.t).toLocaleString()}</td>
+        <td className="border border-gray-300 px-4 py-2">{stockData.o}</td>
+        <td className="border border-gray-300 px-4 py-2">{stockData.c}</td>
+        <td className="border border-gray-300 px-4 py-2">{stockData.h}</td>
+        <td className="border border-gray-300 px-4 py-2">{stockData.l}</td>
+        <td className="border border-gray-300 px-4 py-2">{stockData.v}</td>
+    </tr>}
+         
     </tbody>
   </table>
 </div>
